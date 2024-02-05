@@ -1,0 +1,45 @@
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+
+$border: 2px solid black;
+
+.array__container {
+  border: 1px solid blue;
+  width: max-content;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.array {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background-color: clr(debug, normal);
+
+  border: $border;
+
+  &__element {
+    width: max-content;
+    border-right: $border;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    &--1 {
+
+    }
+
+    &--name {
+      // position: absolute;
+    }
+
+    &--content {
+
+    }
+
+    &--index {
+
+    }
+  }
+}

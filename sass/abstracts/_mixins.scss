@@ -1,0 +1,179 @@
+@use "sass:meta";
+@use "sass:math";
+@use "sass:map";
+@use "colors" as *;
+@use "breakpoints" as *;
+@use "functions" as *;
+
+//DIMENSIONS
+@mixin box($val) {
+  width: $val;
+  height: $val;
+};
+
+@mixin full-box {
+  @include box(100%);
+}
+
+@mixin viewport-box {
+  width: 100vw;
+  height: 100vh;
+}
+
+@mixin inherited-box {
+  width: inherit;
+  height: inherit;
+}
+
+//COLORS
+@mixin theme($bgColor, $textColor)  {
+  background-color: $bgColor;
+  color: $textColor;
+}
+
+@mixin box-shadow-black($x, $y, $blur, $spread, $al) {
+  box-shadow: $x $y $blur $spread black-shadow($al);
+}
+
+// IMAGES
+@mixin responsive-image {
+  display: block;
+  object-fit: cover;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+// BORDERS
+@mixin circle-radius {
+  border-radius: 50%;
+}
+
+// POSITIONING
+@mixin abs-behind {
+  @include abs-top-left(0, 0);
+}
+
+@mixin abs-top-left($top, $left) {
+  position: absolute;
+  top: $top;
+  left: $left;
+}
+
+@mixin abs-center {
+  @include abs-top-left(50%, 50%);
+  translate: -50% -50%;
+}
+
+@mixin fix-center {
+  position: fixed;
+  inset: 0;
+}
+
+// ALIGNMENT
+@mixin margin-center-h {
+  margin: 0 auto;
+}
+
+@mixin margin-center-v {
+  margin: auto 0;
+}
+
+@mixin center-align {
+  place-items: center;
+  place-content: center;
+}
+
+@mixin flex-center {
+  display: flex;
+  flex-direction: row;
+  @include center-align;
+}
+
+@mixin flex-center-column {
+  display: flex;
+  flex-direction: column;
+  @include center-align;
+}
+
+@mixin grid-center {
+  display: grid;
+  @include center-align;
+}
+
+// FORMS
+@mixin form-control-reset {
+  border: none;
+  outline: none;
+}
+
+// BUTTONS
+@mixin btn-outline {
+  @include form-control-reset;
+  outline-color: transparent;
+}
+
+// ANIMATIONS
+@mixin default-transition {
+  transition: all 200ms;
+}
+
+@mixin default-transition-time($time) {
+  transition: all $time;
+}
+
+@mixin custom-transition($prop, $time) {
+  transition: $prop $time;
+}
+
+@mixin hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@mixin show {
+  opacity: 1;
+  visibility: visible;
+}
+
+@mixin fade-animation($name) {
+  animation: $name 1s linear forwards;
+}
+
+@mixin prefers-motion() {
+  @media only screen and (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+// EVENTS
+@mixin on-click {
+  &:active { @content; }
+}
+
+@mixin on-hover {
+  &:is(:hover, :focus-visible) { @content; }
+}
+
+@mixin on-event {
+  &:is(:hover, :active) { @content; }
+}
+
+// MEDIA QUERY MANAGER
+@mixin mq($size) {
+  @if map.has-key($breakpoints, $size) {
+    $breakpoint: map-get($breakpoints, $size);
+    @media only screen and (min-width: $breakpoint) {
+      @content;
+    }
+  } @else if meta.type-of($size) == number {
+    @if math.is-unitless($size) {
+      @error 'when using a number with @mq() make sure to include a unit';
+    } @else {
+      @media only screen and (min-width: $size) {
+        @content;
+      }
+    }
+  } @else {
+    @error 'the keyword #{$size} is not in the $breakpoints map';
+  }
+}

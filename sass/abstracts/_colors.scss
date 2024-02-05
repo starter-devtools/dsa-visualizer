@@ -1,0 +1,21 @@
+$colors: (
+  neutral: (
+    light: white,
+    normal: gray,
+    dark: black,
+  ),
+  primary: (
+    light: lightblue,
+    normal: hsl(215, 55%, 24%),
+    dark: darkblue,
+  ),
+  accent: (
+    normal: hsl(358, 70%, 50%)
+  ),
+  debug: (
+    normal: hsl(30 100% 50% / 0.3)
+  ),
+  error: (
+    form: hsl(0 100% 30%)
+  )
+);
